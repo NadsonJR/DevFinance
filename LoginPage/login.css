@@ -120,3 +120,37 @@ body{
 .animated-form .lost-password a:hover{
     border-bottom-color: #217c00 ;
 }
+
+.animated-form .newcomer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+    color: #217c00;
+}
+.animated-form .newcomer a{
+    color: #217c00;
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+}
+.animated-form .newcomer a:hover{
+    border-bottom-color: #217c00;
+}
+
+::placeholder{
+    font-family: 'montserrat', sans-serif ;
+}
+
+.sr-only{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}

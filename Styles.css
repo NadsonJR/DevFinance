@@ -1,10 +1,17 @@
 :root{
     --dark-blue:#363f5f;
+    --green: #49AA26;
+    --light-green: #3dd705;
+    --red: #e92929;
 }
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html{
+    font-size: 93.75%;
 }
 
 body{
@@ -20,7 +27,7 @@ h2{
 }
 
 a{
-    color: #49aa26;
+    color: var(--green);
     text-decoration: none;
 }
 
@@ -30,7 +37,7 @@ a{
 }
 
 a:hover{
-    color: #3dd705;
+    color: var(--light-green);
 }
 
 .sr-only{
@@ -93,15 +100,18 @@ header{
     margin-top: 1rem;
 }
 .card.total{
-    background: #49aa26;
+    background: var(--green);
     color: white;
 }
-
+#transaction{
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+}
 #data-table{
     width: 100%;
     border-spacing: 0 0.5rem;
     color: #969cb3;
-
 }
 
 table th{
@@ -148,4 +158,101 @@ footer{
     padding: 4rem 0 2rem;
     color: var(--dark-blue);
     opacity: 0.6;
+}
+
+@media (min-width: 800px){
+    html{
+        font-size: 87.5%;
+    }
+    #balance{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+}
+
+/*----------modal-----------*/
+
+.modal-overlay{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .7);
+    position: fixed;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    visibility: hidden;
+
+}
+
+.modal-overlay.active{
+    opacity: 1;
+    visibility: visible;
+}
+.modal{
+    background: #f0f2f5;
+    padding: 2.4rem;
+}
+
+#form{
+    max-width: 500px;
+}
+#form h2{
+    margin-top: 0;
+}
+
+input{
+    border: none;
+    border-radius: .2rem;
+    padding: .8rem;
+    width: 100%;
+}
+.input-group{
+    margin-top: 0.8rem;
+}
+
+.input-group small{
+    opacity: .4;
+}
+
+.input-group.actions{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+button{
+    width: 100%;
+    height: 50px;
+    border: none;
+    color: white;
+    background: var(--green);
+    padding: 0;
+    border-radius: 0.2em;
+    cursor: pointer;
+}
+button:hover{
+    background: var(--light-green);
+}
+
+.button.cancel{
+   color: var(--red);
+   border: 2px var(--red) solid;
+   border-radius: 0.25rem;
+   height: 50px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   opacity: 0.6;
+}
+
+.button.cancel:hover{
+    opacity: 1;
+}
+
+.input-group.actions .button, 
+.input-group.actions button{
+    width: 48%;
 }

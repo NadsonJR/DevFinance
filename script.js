@@ -74,10 +74,11 @@ const DOM = {
     addTransaction(transaction, index) {
         const tr = document.createElement('tr')
         tr.innerHTML = DOM.innerHTMLTransaction(transaction)
+        tr.dataset.index = index
         DOM.transactionsContainer.appendChild(tr)
     },
 
-    innerHTMLTransaction(transaction) {
+    innerHTMLTransaction(transaction, index) {
 
         //Verifica se o valor é positivo ou negativo
         const CSSclass = transaction.amount > 0 ? "income" : "expense"
@@ -91,7 +92,7 @@ const DOM = {
         <td class="${CSSclass}">${amount}</td>
         <td class="date">${transaction.date}</td>
         <td>
-            <img src="assets/minus.svg" alt="remover transação">
+            <img onclick="Transaction.remove(${index})" src="assets/minus.svg" alt="remover transação">
         </td>
         `
         return html
@@ -109,6 +110,14 @@ const DOM = {
 }
 
 const Utils = {
+    formatAmount(value) {
+            value = Number(value.replace(/\,\./g, "")) * 100
+            return value
+    },
+    formatDate(date) {
+        const splittedDate = date.split("-")
+        return `${splittedDate[2]}/${splittedDate[1]}/${splittedDate[0]}`
+    },
     //Formatação da numeração
     formtCurrency(value) {
         const signal = Number(value) < 0 ? " - " : ""
@@ -120,6 +129,7 @@ const Utils = {
         })
         return signal + value
     }
+
 }
 
 const Form = {
@@ -141,16 +151,27 @@ const Form = {
             throw new Error("Preencha todos os campos")
         }
     },
-    formatData() {
-        console.log("Formatar os Dados")
+    formatValues() {
+        let { description, amount, date } = Form.getValue()
+        amount = Utils.formatAmount(amount)
+        date = Utils.formatDate(date)
+        return { description, amount, date }
+    },
+    clearField() {
+        Form.description.value = ""
+        Form.amount.value = ""
+        Form.date.value = ""
     },
 
     submit(event) {
         event.preventDefault()
         try {
             Form.validateFields()
-            Form.formatData()
-
+            const transaction = Form.formatValues()
+            Transaction.add(transaction)
+            Form.clearField()
+            Modal.close()
+            console.log(transaction)
         } catch (error) {
             alert(error.message)
         }
@@ -160,9 +181,7 @@ const Form = {
 const App = {
     init() {
 
-        Transaction.all.forEach((transaction) => {
-            DOM.addTransaction(transaction)
-        })
+        Transaction.all.forEach(DOM.addTransaction)
 
         DOM.updateBalance()
 

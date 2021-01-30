@@ -85,7 +85,6 @@ header{
     margin-bottom: 2rem;
     color: var(--dark-blue);
 }
-
 .card h3{
     font-weight: normal ;
     font-size: 1rem;
@@ -93,7 +92,6 @@ header{
     align-items: center;
     justify-content: space-between;
 }
-
 .card p{
     font-size: 2rem;
     line-height: 3rem;
@@ -113,7 +111,6 @@ header{
     border-spacing: 0 0.5rem;
     color: #969cb3;
 }
-
 table th{
     padding: 1rem 2rem;
     background: white;
@@ -236,6 +233,7 @@ button{
     border-radius: 0.2em;
     cursor: pointer;
 }
+
 button:hover{
     background: var(--light-green);
 }

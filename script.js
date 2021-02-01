@@ -11,38 +11,25 @@ const Modal = {
     }
 }
 
+const Storage ={
+    get(){
+        return JSON.parse(localStorage.getItem("dev.finances:transaction")) || []
+    },
+    set(transaction){
+        localStorage.setItem("dev.finances:transaction", JSON.stringify(transaction))
+    }
+}
+
 const Transaction = {
-    all: [
-        {
-            description: 'Luz',
-            amount: -50000,
-            date: '23/01/2020'
-        },
-        {
-            description: 'Website',
-            amount: 500000,
-            date: '23/01/2020'
-        },
-        {
-            description: 'Internet',
-            amount: -20000,
-            date: '23/01/2020'
-        },
-        {
-            description: 'App',
-            amount: 50000,
-            date: '23/01/2020'
-        }
-    ],
+    all: Storage.get(),
     add(transaction) {
         Transaction.all.push(transaction)
         App.reload()
     },
     remove(index) {
-        Transaction.all.splice(index)
+        Transaction.all.splice(index, 1)
         App.reload()
     },
-
     incomes() {
         let income = 0;
         Transaction.all.forEach((transaction) => {
@@ -73,7 +60,7 @@ const DOM = {
     //adiciona o objeto a tabela
     addTransaction(transaction, index) {
         const tr = document.createElement('tr')
-        tr.innerHTML = DOM.innerHTMLTransaction(transaction)
+        tr.innerHTML = DOM.innerHTMLTransaction(transaction, index)
         tr.dataset.index = index
         DOM.transactionsContainer.appendChild(tr)
     },
@@ -113,6 +100,7 @@ const Utils = {
     formatAmount(value) {
             value = Number(value.replace(/\,\./g, "")) * 100
             return value
+            
     },
     formatDate(date) {
         const splittedDate = date.split("-")
@@ -133,7 +121,7 @@ const Utils = {
 }
 
 const Form = {
-
+    
     description: document.querySelector("input#description"),
     amount: document.querySelector("input#amount"),
     date: document.querySelector("input#date"),
@@ -180,11 +168,11 @@ const Form = {
 
 const App = {
     init() {
-
-        Transaction.all.forEach(DOM.addTransaction)
-
-        DOM.updateBalance()
-
+        Transaction.all.forEach((transaction, index) => {
+            DOM.addTransaction(transaction, index)
+        })
+        Storage.set(Transaction.all)
+         DOM.updateBalance()
     },
     reload() {
         DOM.clearTransactions()
